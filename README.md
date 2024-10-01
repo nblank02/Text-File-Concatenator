@@ -2,7 +2,7 @@
 
 ## Overview
 
-`concat_files.sh` is a simple Bash script designed to concatenate multiple text files into a single output file. It is useful when you have many text files and want to merge their contents into one file without having to manually copy and paste the data.
+`concat_files.sh` is a simple Bash script designed to concatenate multiple text files into a single output file. It is useful when you have many text files and want to merge their contents into one file without having to manually copy and paste the data. FYI, you must run the file to get the output.
 
 ## Features
 

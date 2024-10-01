@@ -26,7 +26,15 @@ else
     # Process options and arguments
     while getopts "o:h" opt; do
         case $opt in
-            o) output_file="$OPTARG" ;;
+            o) 
+                # Validate the output file using regex
+                if [[ "$OPTARG" =~ ^[a-zA-Z0-9_\-]+\.(txt)$ ]]; then
+                    output_file="$OPTARG"
+                else
+                    echo "Error: Invalid output file format. Must end with .txt"
+                    exit 1
+                fi
+                ;;
             h) display_usage; exit 0 ;;
             *) echo "Invalid option: -$OPTARG" >&2; display_usage; exit 1 ;;
         esac
@@ -40,10 +48,11 @@ fi
 # Validate input files
 valid_input_files=()
 for file in "${input_files[@]}"; do
-    if [[ -f "$file" ]]; then
+    # Check if the file exists and has a .txt extension
+    if [[ -f "$file" && "$file" =~ \.txt$ ]]; then
         valid_input_files+=("$file")
     else
-        echo "Warning: File $file does not exist. Skipping."
+        echo "Warning: File $file does not exist or is not a .txt file. Skipping."
     fi
 done
 
@@ -55,8 +64,8 @@ fi
 
 # Validate default input files
 for file in "${valid_input_files[@]}"; do
-    if [[ ! -f "$file" ]]; then
-        echo "Warning: File $file does not exist. Skipping."
+    if [[ ! -f "$file" || ! "$file" =~ \.txt$ ]]; then
+        echo "Warning: File $file does not exist or is not a .txt file. Skipping."
         valid_input_files=("${valid_input_files[@]/$file}")
     fi
 done
